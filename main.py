@@ -16,14 +16,18 @@ def send_email(subject, body):
     try:
         msg = MIMEMultipart()
         msg["From"] = EMAIL_ADDRESS
-        msg["To"] = "samuu8756@gmail.com"
+        recipients = []
+        recipients.append("jfulguera@creminox.com")
+        recipients.append("sistemas@creminox.com")
+        recipients.append("eamarilla@creminox.com")
+        msg["To"] = ", ".join(recipients)
         msg["Subject"] = subject
         msg.attach(MIMEText(body, "plain"))
 
         with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
             server.starttls()
             server.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
-            server.sendmail(EMAIL_ADDRESS, "samuu8756@gmail.com", msg.as_string())
+            server.sendmail(EMAIL_ADDRESS, recipients, msg.as_string())
         print("Notificación por correo enviada.")
     except Exception as e:
         print(f"Error al enviar el correo: {e}")
